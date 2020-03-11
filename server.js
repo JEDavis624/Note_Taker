@@ -6,20 +6,19 @@ var path = require("path");
 // Sets up the Express App
 // =============================================================
 var app = express();
-var PORT = 3000;
 
+// Sets an initial port
+// ============================================================
+var PORT = process.env.PORT || 3000;
 
-app.get("/", function(reg, res){
-    res.sendFile(path.join(__dirname, "./public/index.html"));
-});
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.get("/notes", function(reg, res){
-    res.sendFile(path.join(__dirname, "./public/notes.html"));
-});
-
-app.get("/api/notes", function(reg, res){
-    res.sendFile(path.join(__dirname, "./db/db.json"));
-});
+// Points server to route files
+// =============================================================
+require("./routes/apiRoutes")(app);
+require("./routes/htmlRoutes")(app);
 
 
 
